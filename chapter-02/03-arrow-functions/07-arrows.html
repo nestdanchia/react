@@ -18,7 +18,9 @@
       print: function(delay=1000) {
        console.log(this)
         setTimeout(function() {
-          console.log(this)
+          //Closure: La función tiene acceso a las variables del ámbito padre
+           console.log(tahoe.resorts.join(""))//funciona perfectamente en una función regular porque estás accediendo directamente al objeto tahoe en lugar de usar this.
+          console.log(this)//contexto global (window en navegador)
           console.log(this.resorts.join(","))
         }, delay)
 
