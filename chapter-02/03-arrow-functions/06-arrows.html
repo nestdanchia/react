@@ -10,7 +10,11 @@
 <h1>Arrow Functions</h1>
 <p>Open the console</p>
 <script type="text/babel">
-
+const person = (firstName, lastName) => ({
+first: firstName,
+last: lastName
+});
+console.log(person("Flad", "Hanson"));
     // Arrow Function
 
     const lordify = (firstName, land) => {
@@ -26,8 +30,10 @@
       return `${firstName} of ${land}`
     }
 
-    console.log( lordify() )
 
+
+    console.log( lordify() )
+   
 </script>
 </body>
 </html>

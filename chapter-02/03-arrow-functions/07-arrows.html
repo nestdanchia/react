@@ -16,15 +16,16 @@
     const tahoe = {
       resorts: ["Kirkwood","Squaw","Alpine","Heavenly","Northstar"],
       print: function(delay=1000) {
-
+       console.log(this)
         setTimeout(function() {
+          console.log(this)
           console.log(this.resorts.join(","))
         }, delay)
 
       }
     }
 
-    tahoe.print()
+    tahoe.print()//: Cannot read properties of undefined (reading 'join')
 
 </script>
 </body>
