@@ -5,17 +5,124 @@
     <meta charset="utf-8">
     <title>Default Parameters</title>
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        
+        /* Contenedor principal con Flexbox */
+        #results-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        /* Estilos para cada resultado individual */
+        .result-card {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex: 1 1 300px; /* Flexible: puede crecer, encogerse, base de 300px */
+            min-width: 250px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        /* Efecto hover para mejor interacción */
+        .result-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            border-color: #007acc;
+        }
+        
+        /* === NUEVO CONTENEDOR CON GRID === */
+        
+        /* Contenedor Grid para demostrar diferencia */
+        #grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 2px dashed #6c757d;
+        }
+        
+        /* Cards para el contenedor Grid */
+        .grid-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .grid-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Título para diferenciar */
+        .section-title {
+            font-size: 24px;
+            color: #333;
+            margin: 30px 0 15px 0;
+            text-align: center;
+            border-bottom: 3px solid #007acc;
+            padding-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
 <h1>Default Parameters</h1>
 <p>Open the console</p>
+<div id="results-container"></div>
+
+<!-- === SECCIÓN FLEXBOX (ANTERIOR) === -->
+<h2 class="section-title">📦 Contenedor con Flexbox</h2>
+
+<!-- === SECCIÓN GRID (NUEVO) === -->
+<h2 class="section-title">🎯 Contenedor con Grid</h2>
+<div id="grid-container">
+    <div class="grid-card">Grid Card 1</div>
+    <div class="grid-card">Grid Card 2</div>
+    <div class="grid-card">Grid Card 3</div>
+    <div class="grid-card">Grid Card 4</div>
+</div>
+
 <script type="text/babel">
 
     function logActivity(name="Shane McConkey", activity="skiing") {
-    console.log( `${name} loves ${activity}` )
+    const message = `${name} loves ${activity}`
+    console.log(message)
+    
+    // Mostrar en la página también
+    const container = document.getElementById('results-container')
+    const card = document.createElement('div')
+    card.className = 'result-card'
+    card.textContent = message
+    container.appendChild(card)
+    
+    return message
     }
 
     logActivity()
+
+    // Expresión para ejecutar en el navegador
+    const resultado = logActivity("Alex", "programar en React")
+    console.log("Resultado:", resultado)
+    
+    // Más ejemplos
+    logActivity("Maria", "diseñar interfaces")
+    logActivity("Carlos") // usa el segundo parámetro por defecto
 
 </script>
 </body>
