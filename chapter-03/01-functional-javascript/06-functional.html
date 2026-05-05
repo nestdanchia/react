@@ -71,10 +71,15 @@
         )
       };
     };
+    // funciones de orden superior tambien se pueden definir con arrow functions
 
     // no solo pasás una función como argumento,
     // ahora además una función devuelve otra función
-
+    /*
+    const createScream = logger => message => {
+    logger(message.toUpperCase() + "!!!");
+    }
+    */
     const scream = createScream(
       message => console.log(message)
     );
