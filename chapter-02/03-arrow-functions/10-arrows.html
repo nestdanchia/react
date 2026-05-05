@@ -19,6 +19,8 @@
 
         setTimeout(() => {
           console.log(this.resorts.join(","))
+          // En el caso de la función flecha, como ella no tiene un this propio, 
+          // captura el this del entorno donde se creó y lo guarda en esa clausura
         }, delay)
 
       }
