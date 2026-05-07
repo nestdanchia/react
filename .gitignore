@@ -1,0 +1,20 @@
+# Secrets y archivos que no deben subirse a GitHub
+.env
+*.env
+.env.local
+.env.production
+.env.development
+server.js
+simple-server.js
+
+# Logs y archivos temporales
+*.log
+*.tmp
+*.temp
+node_modules/
+dist/
+build/
+
+# Archivos de configuración local
+.DS_Store
+Thumbs.db
