@@ -1,0 +1,500 @@
+<!doctype html>
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="minimum-scale=1.0, width=device-width, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta charset="utf-8" />
+    <title>Promise Comparison: .then() vs async/await</title>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: #333;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      h1 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .section {
+        background: linear-gradient(145deg, #ffffff, #f8f9fa);
+        padding: 25px;
+        margin: 25px 0;
+        border-radius: 12px;
+        border-left: 5px solid #007acc;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .section:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .method-title {
+        color: #007acc;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .code {
+        background: #2d3748;
+        color: #e2e8f0;
+        padding: 20px;
+        margin: 15px 0;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        overflow-x: auto;
+        font-size: 14px;
+        line-height: 1.6;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .highlight {
+        background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        display: inline-block;
+        margin: 5px 0;
+        font-weight: 500;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .photo-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .photo-container {
+        background: linear-gradient(145deg, #f0f8ff, #e6f3ff);
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .photo-container:hover {
+        transform: scale(1.02);
+      }
+
+      .photo-container img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #007acc;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .photo-container h3 {
+        color: #2c3e50;
+        margin: 15px 0 10px 0;
+      }
+
+      .photo-container p {
+        color: #555;
+        margin: 5px 0;
+        font-size: 14px;
+      }
+
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .comparison-table th {
+        background: #007acc;
+        color: white;
+        padding: 15px;
+        text-align: left;
+        font-weight: bold;
+      }
+
+      .comparison-table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .comparison-table tr:hover {
+        background: #f8f9fa;
+      }
+
+      .feature-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .feature-list li {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        padding: 10px 15px;
+        margin: 8px 0;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: transform 0.2s ease;
+      }
+
+      .feature-list li:hover {
+        transform: translateX(5px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Promise Comparison: .then() vs async/await</h1>
+      <p
+        style="
+          text-align: center;
+          font-size: 18px;
+          color: #666;
+          margin-bottom: 30px;
+        "
+      >
+        Open the console to see the differences
+      </p>
+
+      <!-- SECCIÓN .then() -->
+      <div class="section">
+        <div class="method-title">
+          <span>📋</span>
+          <span>Método con .then()</span>
+        </div>
+        <div class="highlight">
+          Retorno implícito: El último .then() retorna lo que sea
+        </div>
+        <div class="highlight">
+          Encadenamiento: Cada .then() puede modificar los datos
+        </div>
+
+        <div class="code">
+          fetch("https://api.randomuser.me/?nat=US&results=3") .then(response =>
+          response.json()) .then(data => { // Modificamos los datos aquí const
+          modified = { ...data, processed: true, timestamp: new
+          Date().toISOString() }; return modified; // ← Retorno implícito })
+          .then(result => console.log("Resultado .then():", result));
+        </div>
+      </div>
+
+      <!-- SECCIÓN async/await -->
+      <div class="section">
+        <div class="method-title">
+          <span>🚀</span>
+          <span>Método con async/await</span>
+        </div>
+        <div class="highlight">
+          Retorno explícito: return data controla exactamente qué se retorna
+        </div>
+        <div class="highlight">
+          Flexibilidad: Puedes modificar el objeto antes de retornarlo
+        </div>
+
+        <div class="code">
+          const getAsyncData = async () => { try { const response = await
+          fetch("https://api.randomuser.me/?nat=US&results=3"); const data =
+          await response.json(); // Modificamos los datos aquí const modified =
+          { ...data, processed: true, timestamp: new Date().toISOString(),
+          method: "async/await" }; return modified; // ← Retorno explícito
+          controlado } catch (error) { console.error("Error en async/await:",
+          error); return null; } }; getAsyncData().then(result =>
+          console.log("Resultado async/await:", result));
+        </div>
+      </div>
+
+      <!-- SECCIÓN MOSTRAR FOTOS -->
+      <div class="section">
+        <div class="method-title">
+          <span>📸</span>
+          <span>Mostrar fotos con ambos métodos</span>
+        </div>
+
+        <div class="code">
+          // NOTA: Las funciones showPhotosWithThen y showPhotosWithAsync //
+          están definidas fuera del template string para evitar errores de
+          parseo
+        </div>
+
+        <!-- Contenedores para las fotos -->
+        <div class="photo-grid">
+          <div id="photo-then" class="photo-container">
+            <p>Cargando fotos con .then()...</p>
+            <p>Cargando foto con .then()...</p>
+          </div>
+          <div id="photo-async" class="photo-container">
+            <p>Cargando foto con async/await...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN COMPARACIÓN -->
+      <div class="section">
+        <div class="method-title">
+          <span>⚖️</span>
+          <span>Comparación directa</span>
+        </div>
+
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Característica</th>
+              <th>.then()</th>
+              <th>async/await</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Sintaxis</strong></td>
+              <td>Cadena de promesas</td>
+              <td>Código síncrono aparente</td>
+            </tr>
+            <tr>
+              <td><strong>Retorno</strong></td>
+              <td>Implícito (último valor)</td>
+              <td>Explícito (return)</td>
+            </tr>
+            <tr>
+              <td><strong>Manejo de errores</strong></td>
+              <td>.catch()</td>
+              <td>try/catch</td>
+            </tr>
+            <tr>
+              <td><strong>Legibilidad</strong></td>
+              <td>Media (anidada)</td>
+              <td>Alta (lineal)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SECCIÓN VENTAJAS -->
+      <div class="section">
+        <div class="method-title">
+          <span>📊</span>
+          <span>Ventajas de cada método</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px">
+          <div>
+            <h3 style="color: #007acc; margin-bottom: 15px">
+              .then() - Ventajas:
+            </h3>
+            <ul class="feature-list">
+              <li>✅ Encadenamiento natural de operaciones</li>
+              <li>✅ Cada paso puede modificar los datos</li>
+              <li>✅ Retorno implícito del último valor</li>
+              <li>✅ Manejo de errores con .catch()</li>
+            </ul>
+          </div>
+          <div>
+            <h3 style="color: #28a745; margin-bottom: 15px">
+              async/await - Ventajas:
+            </h3>
+            <ul class="feature-list">
+              <li>✅ Código más legible y lineal</li>
+              <li>✅ Control explícito del retorno</li>
+              <li>✅ Manejo de errores con try/catch tradicional</li>
+              <li>✅ Facilidad para depurar paso a paso</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/babel">
+      // ========================================
+      // FUNCIONES PARA MOSTRAR FOTOS DE 3 USUARIOS
+      // ========================================
+
+      // MÉTODO .then() - Mostrar fotos de 3 usuarios
+      const showPhotosWithThen = () => {
+        // 1. Hacemos la petición para obtener 3 usuarios
+        fetch("https://api.randomuser.me/?nat=US&results=3")
+          // 2. Convertimos la respuesta a JSON
+          .then((response) => response.json())
+          // 3. Procesamos los datos y mostramos las fotos
+          .then((data) => {
+            // Obtenemos el contenedor donde mostraremos las fotos
+            const photoContainer = document.getElementById("photo-then");
+
+            // Creamos el HTML con los 3 usuarios usando Flexbox
+            photoContainer.innerHTML = `
+              <h3>3 Fotos con .then() - Flexbox Layout</h3>
+              <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                ${data.results
+                  .map(
+                    (user, index) => `
+                  <div style="text-align: center; padding: 15px; background: #f0f8ff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); min-width: 200px;">
+                    <img src="${user.picture.large}" alt="${user.name.first}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #007acc;">
+                    <h4 style="margin: 10px 0 5px 0; color: #2c3e50;">${user.name.first} ${user.name.last}</h4>
+                    <p style="margin: 5px 0; color: #666; font-size: 14px;">${user.email}</p>
+                  </div>
+                `,
+                  )
+                  .join("")}
+              </div>
+            `;
+
+            // Retornamos los datos para el siguiente .then()
+            return data;
+          })
+          // 4. Mostramos los usuarios en consola (retorno implícito)
+          .then((data) => console.log("Usuarios .then():", data.results));
+      };
+
+      // MÉTODO async/await - Mostrar fotos de 3 usuarios
+      const showPhotosWithAsync = async () => {
+        try {
+          // 1. Esperamos la respuesta de la API para 3 usuarios
+          const response = await fetch(
+            "https://api.randomuser.me/?nat=US&results=3",
+          );
+
+          // 2. Esperamos la conversión a JSON
+          const data = await response.json();
+
+          // 3. Obtenemos el contenedor para las fotos
+          const photoContainer = document.getElementById("photo-async");
+
+          // 4. Creamos el HTML con los 3 usuarios usando Flexbox
+          photoContainer.innerHTML = `
+            <h3>3 Fotos con async/await - Flexbox Layout</h3>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+              ${data.results
+                .map(
+                  (user, index) => `
+                <div style="text-align: center; padding: 15px; background: #f0fff0; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); min-width: 200px;">
+                  <img src="${user.picture.large}" alt="${user.name.first}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #28a745;">
+                  <h4 style="margin: 10px 0 5px 0; color: #2c3e50;">${user.name.first} ${user.name.last}</h4>
+                  <p style="margin: 5px 0; color: #666; font-size: 14px;">${user.email}</p>
+                </div>
+              `,
+                )
+                .join("")}
+            </div>
+          `;
+
+          // 5. Retorno explícito de los datos
+          return data;
+        } catch (error) {
+          // Manejo de errores con try/catch tradicional
+          console.error("Error async/await:", error);
+        }
+      };
+
+      // Ejecutar los ejemplos
+      console.log("=== INICIANDO COMPARACIÓN ===");
+
+      // Ejecutar método .then()
+      fetch("https://api.randomuser.me/?nat=US&results=3")
+        .then((response) => response.json())
+        .then((data) => {
+          const modified = {
+            ...data,
+            processed: true,
+            timestamp: new Date().toISOString(),
+          };
+          return modified;
+        })
+        .then((result) => console.log("Resultado .then():", result));
+
+      // Ejecutar método async/await
+      const getAsyncData = async () => {
+        try {
+          const response = await fetch(
+            "https://api.randomuser.me/?nat=US&results=3",
+          );
+          const data = await response.json();
+
+          const modified = {
+            ...data,
+            processed: true,
+            timestamp: new Date().toISOString(),
+            method: "async/await",
+          };
+
+          return modified;
+        } catch (error) {
+          console.error("Error en async/await:", error);
+          return null;
+        }
+      };
+
+      getAsyncData().then((result) =>
+        console.log("Resultado async/await:", result),
+      );
+
+      // Comparación de nombres
+      const withThen = () => {
+        fetch("https://api.randomuser.me/?nat=US&results=1")
+          .then((response) => response.json())
+          .then((data) => data.results[0])
+          .then((user) => user.name)
+          .then((name) => `${name.first} ${name.last}`)
+          .then((fullName) => console.log("Nombre .then():", fullName));
+      };
+
+      const withAsync = async () => {
+        try {
+          const response = await fetch(
+            "https://api.randomuser.me/?nat=US&results=1",
+          );
+          const data = await response.json();
+          const user = data.results[0];
+          const name = user.name;
+          const fullName = `${name.first} ${name.last}`;
+
+          console.log("Nombre async/await:", fullName);
+          return fullName;
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+
+      // NOTA: Las funciones showPhotosWithThen y showPhotosWithAsync ya están definidas arriba
+      // Estas son las funciones que muestran 3 usuarios con Flexbox
+
+      // Ejecutar comparación
+      console.log("\n=== COMPARACIÓN DE NOMBRES ===");
+      withThen();
+      withAsync();
+
+      console.log("\n=== MOSTRANDO FOTOS DE 3 USUARIOS ===");
+      showPhotosWithThen();
+      showPhotosWithAsync();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="minimum-scale=1.0, width=device-width, maximum-scale=1.0, user-scalable=no" />
+  <meta charset="utf-8" />
+  <title>What It Means to Be Functional</title>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+  <h1>Functional JavaScript</h1>
+  <p>Open the console</p>
+  <script type="text/babel">
+    const createScream = function (logger) {
+
+      // createScream recibe una función como parámetro
+      // esa función se guarda en la variable logger
+
+      console.log("createScream recibe una función logger", logger)
+
+      // cuando hacemos:
+      // const scream = createScream(message => console.log(message))
+      //
+      // logger pasa a ser:
+      //
+      // ƒ (message) {
+      //   return console.log(message);
+      // }
+      //
+      // y cuando hacemos:
+      // const scream1 = createScream(finalText => console.log(finalText))
+      //
+      // logger pasa a ser:
+      //
+      // ƒ (finalText) {
+      //   return console.log(finalText);
+      // }
+      //
+      // todavía NO existe el texto real ("message")
+      // acá solo estamos recibiendo la función que imprimirá el resultado
+
+      return function (message) {
+
+        // createScream devuelve una nueva función
+        // esta nueva función sí recibe el texto real
+        //
+        // por ejemplo:
+        // scream("functions can be returned from other functions")
+
+        console.log(
+          "*** message de la función que fabricamos ***",
+          message
+        )
+
+        // message será:
+        // "functions can be returned from other functions"
+
+        // ahora:
+        // 1. convierte el texto a mayúsculas
+        // 2. agrega !!!
+        // 3. se lo pasa a logger
+
+        logger(message.toUpperCase() + "!!!")
+
+        // logger sigue siendo la misma función recibida antes
+
+        console.log(
+          "*** createScream recibe una función logger ***",
+          logger
+        )
+      };
+    };
+    // funciones de orden superior tambien se pueden definir con arrow functions
+
+    // no solo pasás una función como argumento,
+    // ahora además una función devuelve otra función
+    /*
+    const createScream = logger => message => {
+    logger(message.toUpperCase() + "!!!");
+    }
+    */
+    const scream = createScream(
+      message => console.log(message)
+    );
+
+    // acá ejecutamos la nueva función creada
+
+    scream(
+      "**functions can be returned from other functions**"
+    );
+
+    // esta línea también ejecuta createScream()
+    // por eso aparece otro console.log con finalText
+
+    const scream1 = createScream(
+      finalText => console.log(finalText)
+    );
+
+    // scream("createScream returns a function");
+    // scream("scream invokes that returned function");
+
+    // createScream recibe una función
+    // esa función será la encargada de mostrar/imprimir el resultado
+
+    const createScream1 = function (printFunction) {
+
+      // devuelve una nueva función
+      // esta nueva función recibe el texto real que queremos transformar
+
+      return function (textToTransform) {
+
+        // toma el texto recibido
+        // lo convierte a mayúsculas
+        // le agrega !!!
+        // y luego se lo pasa a printFunction
+
+        printFunction(
+          textToTransform.toUpperCase() + "!!!"
+        );
+      };
+    };
+
+    // ahora scream ya es una nueva función creada por createScream
+    // si hacemos:
+
+    // scream("javascript")
+
+    // ocurrirá esto internamente:
+
+    // console.log("JAVASCRIPT!!!")
+  </script>
+</body>
+
+</html>

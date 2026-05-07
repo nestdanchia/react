@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="minimum-scale=1.0, width=device-width, maximum-scale=1.0, user-scalable=no" />
+  <meta charset="utf-8">
+  <title>Promises</title>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+  <h1>Promises</h1>
+  <p>Open the console</p>
+  <script type="text/babel">
+    // la Promise ya existe con fetch
+    fetch("https://api.randomuser.me/?nat=US&results=2")
+      .then((response) => response.json()) // devuelve una promesa convierte al json en un objeto js completo
+      .then((data) => console.log("response.json()", data)) // aca la respuesta es tomada y se imprime
+      .catch((err) => console.error(err));
+    /* devuelve el objeto completo{
+      results: [...],
+      info: {...}
+    }*/
+    fetch("https://api.randomuser.me/?nat=US&results=2")
+      .then((response) => {
+        // response es el objeto de respuesta HTTP
+        // acá todavía NO tenemos el JSON convertido
+
+        console.log("status:", response.status); // por ejemplo 200
+        console.log("ok:", response.ok); // true si status está entre 200 y 299
+
+        // fetch NO entra automáticamente en catch si hay 404 o 500
+        // por eso conviene validar manualmente
+
+        if (!response.ok) {
+          throw new Error("Error HTTP: " + response.status);
+        }
+
+        // response.json()
+        // lee el JSON que vino como texto (string)
+        // y lo convierte en un objeto JavaScript completo
+        // equivale a JSON.parse(request.response)
+
+        return response.json();
+      })
+      .then((data) => {
+        // data ya es un objeto JS
+
+        console.log("response.json()", data);
+
+        // data contiene todo:
+        /*
+        {
+          results: [usuario1, usuario2],
+          info: {...}
+        }
+        */
+
+        // si quisiéramos solo el array de usuarios:
+        console.log("solo results:", data.results);
+      })
+      .catch((err) => {
+        // catch captura:
+        // - errores de red
+        // - errores lanzados con throw new Error(...)
+
+        console.error(err);
+      });
+
+    // metodo antiguo la promesa hay que crearla manualmente
+    const getFakeMembers = count => new Promise((resolves, rejects) => {
+      const api = `https://api.randomuser.me/?nat=US&results=${count}`
+      const request = new XMLHttpRequest() //  la API XMLHttpRequest. no usa promesa
+      request.open('GET', api)
+      request.onload = () =>
+        (request.status === 200) ?
+          resolves(JSON.parse(request.response).results) :
+          rejects(Error(request.statusText))
+      request.onerror = (err) => rejects(err)
+      request.send()
+      // request.response contiene la respuesta Json en formato texto
+      //necesitamos por eso JSON.parse()
+      // response.json() equivale a JSON.parse(request.response)
+      //JSON.parse(request.response).results devuelve el array results solamente
+      /*  [
+   usuario1,
+   usuario2
+ ]*/
+    })
+
+    getFakeMembers(2).then(
+      members => console.log("JSON.parse(request.response).results", members),
+      err => console.error(
+        new Error("cannot load members from randomuser.me"))
+    )
+
+  </script>
+</body>
+
+</html>

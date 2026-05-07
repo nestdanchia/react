@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="minimum-scale=1.0, width=device-width, maximum-scale=1.0, user-scalable=no" />
+  <meta charset="utf-8" />
+  <title>Promises with fetch</title>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+  <h1>Promises with fetch</h1>
+  <p>Open the console</p>
+  <script type="text/babel">
+    /*
+    .then():
+Retorno implícito: El último .then() retorna lo que sea
+Encadenamiento: Cada .then() puede modificar los datos
+async/await:
+Retorno explícito: return data controla exactamente qué se retorna
+Flexibilidad: Puedes modificar el objeto antes de retornarlo
+    */
+    const fake = {
+      results: [
+        {
+          gender: "female",
+          name: {
+            title: "Ms",
+            first: "Joan",
+            last: "Thomas",
+          },
+          location: {
+            street: {
+              number: 2016,
+              name: "Walnut Hill Ln",
+            },
+            city: "Steilacoom",
+            state: "Illinois",
+            country: "United States",
+            postcode: 69982,
+            coordinates: {
+              latitude: "49.3906",
+              longitude: "45.0610",
+            },
+            timezone: {
+              offset: "-4:00",
+              description: "Atlantic Time (Canada), Caracas, La Paz",
+            },
+          },
+          email: "joan.thomas@example.com",
+          login: {
+            uuid: "7ef43ed4-ac56-4e04-a351-cbe8a7811cf0",
+            username: "bigrabbit764",
+            password: "extreme",
+            salt: "Xxy7brlp",
+            md5: "0dd96fd1f14ca86bd31359ac4832120a",
+            sha1: "aa9a6e8beab919d75d2cee6dee4b46941eddd470",
+            sha256:
+              "4546993e694570796b931a80a3e0d68fe5e5781019ecef687a030f69f4f3bd7b",
+          },
+          dob: {
+            date: "1996-04-09T10:29:42.984Z",
+            age: 30,
+          },
+          registered: {
+            date: "2012-08-31T10:11:40.425Z",
+            age: 13,
+          },
+          phone: "(550) 279-0486",
+          cell: "(860) 697-5510",
+          id: {
+            name: "SSN",
+            value: "841-50-1424",
+          },
+          picture: {
+            large: "https://randomuser.me/api/portraits/women/62.jpg",
+            medium: "https://randomuser.me/api/portraits/med/women/62.jpg",
+            thumbnail:
+              "https://randomuser.me/api/portraits/thumb/women/62.jpg",
+          },
+          nat: "US",
+        },
+      ],
+      info: {
+        seed: "9849b89091584cac",
+        results: 1,
+        page: 1,
+        version: "1.4",
+      },
+    };
+    fetch("https://api.randomuser.me/?nat=US&results=2").then((res) =>
+      console.log("resp.json", res.json()),
+    );
+    // Retorna: Objeto completo {results: [...], info: {...}}
+    // response.json()
+    // lee el JSON que vino como texto (string)
+    // y lo convierte en un objeto JavaScript completo
+    // equivale a JSON.parse(request.response)
+
+    fetch("https://api.randomuser.me/?nat=US&results=2")
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err));
+
+    const getFakePerson = async () => {
+      let res = await fetch("https://api.randomuser.me/?nat=US&results=1");
+      let data = await res.json(); // ← Leer una sola vez
+      let { results } = data; // ← Destructuring del mismo objeto
+      console.log("async", results);
+    };
+
+    // Versión con async/await que retorna lo mismo que el fetch con .then()
+    const getAsyncftech = async () => {
+      let res = await fetch("https://api.randomuser.me/?nat=US&results=1");
+      let data = await res.json(); // ← Leer una sola vez
+      return data; // ← Retorna el objeto completo
+    };
+    // con fetch tambien es posible usar desestructuracion en el parametro 
+    fetch("https://api.randomuser.me/?nat=US&results=2")
+      .then((response) => response.json())
+      .then(({ results }) => console.log(results))
+      .catch((err) => console.error(err));
+
+    // equivalencias 
+    const getFakeMembers = async (count) => {
+      const res = await fetch(
+        `https://api.randomuser.me/?nat=US&results=${count}`
+      );
+
+      const { results } = await res.json();
+
+      return results;
+    };
+    //con 
+    const getFakeMembersDestructor = (count) =>
+      fetch(`https://api.randomuser.me/?nat=US&results=${count}`)
+        .then(response => response.json())
+        .then(data => {
+          let { results } = data;
+          return results; // también debe devolver results
+        });
+
+    // Llamar a ambas funciones para comparar
+    getFakePerson();
+    getAsyncftech().then((result) =>
+      console.log("async con return:", result),
+    );
+  </script>
+</body>
+
+</html>
