@@ -1,0 +1,402 @@
+[
+  {
+    "id": 1,
+    "nombre": "Laptop MacBook Pro 16\"",
+    "stock": 8,
+    "precio": 2499,
+    "categoria": "computacion",
+    "imagen": "https://picsum.photos/seed/macbook-pro-16/300/200.jpg"
+  },
+  {
+    "id": 2,
+    "nombre": "Mouse Logitech MX Master 3",
+    "stock": 25,
+    "precio": 99,
+    "categoria": "accesorios",
+    "imagen": "https://picsum.photos/seed/logitech-mx3/300/200.jpg"
+  },
+  {
+    "id": 3,
+    "nombre": "Monitor LG UltraWide 34\"",
+    "stock": 12,
+    "precio": 799,
+    "categoria": "computacion",
+    "imagen": "https://picsum.photos/seed/lg-ultrawide/300/200.jpg"
+  },
+  {
+    "id": 4,
+    "nombre": "Teclado Mechanical Keychron K2",
+    "stock": 18,
+    "precio": 129,
+    "categoria": "accesorios",
+    "imagen": "https://picsum.photos/seed/keychron-k2/300/200.jpg"
+  },
+  {
+    "id": 5,
+    "nombre": "Webcam Logitech C920",
+    "stock": 30,
+    "precio": 79,
+    "categoria": "accesorios",
+    "imagen": "https://picsum.photos/seed/logitech-c920/300/200.jpg"
+  },
+  {
+    "id": 6,
+    "nombre": "iPad Pro 12.9\"",
+    "stock": 15,
+    "precio": 1099,
+    "categoria": "tablets",
+    "imagen": "https://picsum.photos/seed/ipad-pro-129/300/200.jpg"
+  },
+  {
+    "id": 7,
+    "nombre": "iPhone 15 Pro Max",
+    "stock": 22,
+    "precio": 1199,
+    "categoria": "smartphones",
+    "imagen": "https://picsum.photos/seed/iphone-15-pro/300/200.jpg"
+  },
+  {
+    "id": 8,
+    "nombre": "Samsung Galaxy S24 Ultra",
+    "stock": 19,
+    "precio": 1299,
+    "categoria": "smartphones",
+    "imagen": "https://picsum.photos/seed/galaxy-s24/300/200.jpg"
+  },
+  {
+    "id": 9,
+    "nombre": "AirPods Pro 2",
+    "stock": 35,
+    "precio": 249,
+    "categoria": "audio",
+    "imagen": "https://picsum.photos/seed/airpods-pro2/300/200.jpg"
+  },
+  {
+    "id": 10,
+    "nombre": "Sony WH-1000XM5",
+    "stock": 28,
+    "precio": 399,
+    "categoria": "audio",
+    "imagen": "https://picsum.photos/seed/sony-wh1000xm5/300/200.jpg"
+  },
+  {
+    "id": 11,
+    "nombre": "Dell XPS 15",
+    "stock": 10,
+    "precio": 1899,
+    "categoria": "computacion",
+    "imagen": "https://picsum.photos/seed/dell-xps15/300/200.jpg"
+  },
+  {
+    "id": 12,
+    "nombre": "Microsoft Surface Laptop 5",
+    "stock": 14,
+    "precio": 1599,
+    "categoria": "computacion",
+    "imagen": "https://picsum.photos/seed/surface-laptop5/300/200.jpg"
+  },
+  {
+    "id": 13,
+    "nombre": "ASUS ROG Strix G15",
+    "stock": 7,
+    "precio": 1499,
+    "categoria": "gaming",
+    "imagen": "https://picsum.photos/seed/asus-rog-g15/300/200.jpg"
+  },
+  {
+    "id": 14,
+    "nombre": "PlayStation 5",
+    "stock": 5,
+    "precio": 499,
+    "categoria": "gaming",
+    "imagen": "https://picsum.photos/seed/ps5-console/300/200.jpg"
+  },
+  {
+    "id": 15,
+    "nombre": "Xbox Series X",
+    "stock": 8,
+    "precio": 499,
+    "categoria": "gaming",
+    "imagen": "https://picsum.photos/seed/xbox-seriesx/300/200.jpg"
+  },
+  {
+    "id": 16,
+    "nombre": "Nintendo Switch OLED",
+    "stock": 20,
+    "precio": 349,
+    "categoria": "gaming",
+    "imagen": "https://picsum.photos/seed/switch-oled/300/200.jpg"
+  },
+  {
+    "id": 17,
+    "nombre": "Samsung Galaxy Tab S9",
+    "stock": 16,
+    "precio": 799,
+    "categoria": "tablets",
+    "imagen": "https://picsum.photos/seed/galaxy-tabs9/300/200.jpg"
+  },
+  {
+    "id": 18,
+    "nombre": "Microsoft Surface Pro 9",
+    "stock": 11,
+    "precio": 1299,
+    "categoria": "tablets",
+    "imagen": "https://picsum.photos/seed/surface-pro9/300/200.jpg"
+  },
+  {
+    "id": 19,
+    "nombre": "Apple Watch Series 9",
+    "stock": 24,
+    "precio": 429,
+    "categoria": "wearables",
+    "imagen": "https://picsum.photos/seed/apple-watch9/300/200.jpg"
+  },
+  {
+    "id": 20,
+    "nombre": "Samsung Galaxy Watch 6",
+    "stock": 21,
+    "precio": 349,
+    "categoria": "wearables",
+    "imagen": "https://picsum.photos/seed/galaxy-watch6/300/200.jpg"
+  },
+  {
+    "id": 21,
+    "nombre": "Canon EOS R6 Mark II",
+    "stock": 6,
+    "precio": 2499,
+    "categoria": "fotografia",
+    "imagen": "https://picsum.photos/seed/canon-eos-r6/300/200.jpg"
+  },
+  {
+    "id": 22,
+    "nombre": "Sony Alpha A7 IV",
+    "stock": 9,
+    "precio": 2499,
+    "categoria": "fotografia",
+    "imagen": "https://picsum.photos/seed/sony-a7iv/300/200.jpg"
+  },
+  {
+    "id": 23,
+    "nombre": "DJI Mini 3 Pro",
+    "stock": 13,
+    "precio": 759,
+    "categoria": "drones",
+    "imagen": "https://picsum.photos/seed/dji-mini3pro/300/200.jpg"
+  },
+  {
+    "id": 24,
+    "nombre": "GoPro Hero 12 Black",
+    "stock": 17,
+    "precio": 399,
+    "categoria": "camaras",
+    "imagen": "https://picsum.photos/seed/gopro-hero12/300/200.jpg"
+  },
+  {
+    "id": 25,
+    "nombre": "Bose QuietComfort 45",
+    "stock": 31,
+    "precio": 329,
+    "categoria": "audio",
+    "imagen": "https://picsum.photos/seed/bose-qc45/300/200.jpg"
+  },
+  {
+    "id": 26,
+    "nombre": "JBL Flip 6",
+    "stock": 45,
+    "precio": 129,
+    "categoria": "audio",
+    "imagen": "https://picsum.photos/seed/jbl-flip6/300/200.jpg"
+  },
+  {
+    "id": 27,
+    "nombre": "Kindle Paperwhite",
+    "stock": 38,
+    "precio": 149,
+    "categoria": "ebooks",
+    "imagen": "https://picsum.photos/seed/kindle-paperwhite/300/200.jpg"
+  },
+  {
+    "id": 28,
+    "nombre": "Razer DeathAdder V3",
+    "stock": 22,
+    "precio": 69,
+    "categoria": "gaming",
+    "imagen": "https://picsum.photos/seed/razer-deathadder/300/200.jpg"
+  },
+  {
+    "id": 29,
+    "nombre": "SteelSeries Arctis Nova Pro",
+    "stock": 19,
+    "precio": 179,
+    "categoria": "gaming",
+    "imagen": "https://picsum.photos/seed/steelseries-arctis/300/200.jpg"
+  },
+  {
+    "id": 30,
+    "nombre": "Elgato Stream Deck XL",
+    "stock": 12,
+    "precio": 249,
+    "categoria": "streaming",
+    "imagen": "https://picsum.photos/seed/elgato-streamdeck/300/200.jpg"
+  },
+  {
+    "id": 31,
+    "nombre": "Blue Yeti Nano",
+    "stock": 26,
+    "precio": 99,
+    "categoria": "streaming",
+    "imagen": "https://picsum.photos/seed/blue-yeti-nano/300/200.jpg"
+  },
+  {
+    "id": 32,
+    "nombre": "Google Pixel 8 Pro",
+    "stock": 18,
+    "precio": 999,
+    "categoria": "smartphones",
+    "imagen": "https://picsum.photos/seed/pixel-8-pro/300/200.jpg"
+  },
+  {
+    "id": 33,
+    "nombre": "OnePlus 12",
+    "stock": 20,
+    "precio": 799,
+    "categoria": "smartphones",
+    "imagen": "https://picsum.photos/seed/oneplus-12/300/200.jpg"
+  },
+  {
+    "id": 34,
+    "nombre": "Lenovo ThinkPad X1 Carbon",
+    "stock": 9,
+    "precio": 1799,
+    "categoria": "computacion",
+    "imagen": "https://picsum.photos/seed/thinkpad-x1/300/200.jpg"
+  },
+  {
+    "id": 35,
+    "nombre": "HP Spectre x360",
+    "stock": 11,
+    "precio": 1449,
+    "categoria": "computacion",
+    "imagen": "https://picsum.photos/seed/hp-spectre-x360/300/200.jpg"
+  },
+  {
+    "id": 36,
+    "nombre": "Alienware m16",
+    "stock": 5,
+    "precio": 2199,
+    "categoria": "gaming",
+    "imagen": "https://picsum.photos/seed/alienware-m16/300/200.jpg"
+  },
+  {
+    "id": 37,
+    "nombre": "Meta Quest 3",
+    "stock": 15,
+    "precio": 499,
+    "categoria": "vr",
+    "imagen": "https://picsum.photos/seed/meta-quest3/300/200.jpg"
+  },
+  {
+    "id": 38,
+    "nombre": "Valve Index",
+    "stock": 4,
+    "precio": 999,
+    "categoria": "vr",
+    "imagen": "https://picsum.photos/seed/valve-index/300/200.jpg"
+  },
+  {
+    "id": 39,
+    "nombre": "Apple Pencil Pro",
+    "stock": 28,
+    "precio": 129,
+    "categoria": "accesorios",
+    "imagen": "https://picsum.photos/seed/apple-pencil/300/200.jpg"
+  },
+  {
+    "id": 40,
+    "nombre": "Samsung S Pen Pro",
+    "stock": 23,
+    "precio": 99,
+    "categoria": "accesorios",
+    "imagen": "https://picsum.photos/seed/samsung-spen/300/200.jpg"
+  },
+  {
+    "id": 41,
+    "nombre": "Anker PowerCore 20000",
+    "stock": 42,
+    "precio": 49,
+    "categoria": "accesorios",
+    "imagen": "https://picsum.photos/seed/anker-powercore/300/200.jpg"
+  },
+  {
+    "id": 42,
+    "nombre": "SanDisk Extreme Pro SSD 2TB",
+    "stock": 33,
+    "precio": 199,
+    "categoria": "almacenamiento",
+    "imagen": "https://picsum.photos/seed/sandisk-ssd2tb/300/200.jpg"
+  },
+  {
+    "id": 43,
+    "nombre": "Western Digital My Cloud",
+    "stock": 16,
+    "precio": 299,
+    "categoria": "almacenamiento",
+    "imagen": "https://picsum.photos/seed/wd-mycloud/300/200.jpg"
+  },
+  {
+    "id": 44,
+    "nombre": "Netgear Nighthawk AX12",
+    "stock": 21,
+    "precio": 399,
+    "categoria": "redes",
+    "imagen": "https://picsum.photos/seed/netgear-nighthawk/300/200.jpg"
+  },
+  {
+    "id": 45,
+    "nombre": "TP-Link Deco AX3000",
+    "stock": 25,
+    "precio": 349,
+    "categoria": "redes",
+    "imagen": "https://picsum.photos/seed/tplink-deco/300/200.jpg"
+  },
+  {
+    "id": 46,
+    "nombre": "Ubiquiti UniFi Dream Machine",
+    "stock": 8,
+    "precio": 449,
+    "categoria": "redes",
+    "imagen": "https://picsum.photos/seed/ubiquiti-unifi/300/200.jpg"
+  },
+  {
+    "id": 47,
+    "nombre": "Ring Video Doorbell Pro",
+    "stock": 19,
+    "precio": 249,
+    "categoria": "hogar",
+    "imagen": "https://picsum.photos/seed/ring-doorbell/300/200.jpg"
+  },
+  {
+    "id": 48,
+    "nombre": "Nest Hub Max",
+    "stock": 14,
+    "precio": 229,
+    "categoria": "hogar",
+    "imagen": "https://picsum.photos/seed/nest-hub-max/300/200.jpg"
+  },
+  {
+    "id": 49,
+    "nombre": "Philips Hue Starter Kit",
+    "stock": 27,
+    "precio": 199,
+    "categoria": "hogar",
+    "imagen": "https://picsum.photos/seed/philips-hue/300/200.jpg"
+  },
+  {
+    "id": 50,
+    "nombre": "Amazon Echo Studio",
+    "stock": 31,
+    "precio": 199,
+    "categoria": "hogar",
+    "imagen": "https://picsum.photos/seed/echo-studio/300/200.jpg"
+  }
+]

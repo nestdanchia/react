@@ -1,0 +1,100 @@
+/* 🎨 ESTILOS DE FILTROS - Tienda Virtual */
+.filtros {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--box-shadow);
+  border-left: 5px solid var(--info-color);
+}
+
+.filtrosContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  align-items: end;
+}
+
+.grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.grupo label {
+  font-weight: 600;
+  color: var(--dark-color);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.input,
+.select {
+  padding: 0.75rem;
+  border: 2px solid #e9ecef;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  transition: var(--transition);
+  background: white;
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.input::placeholder {
+  color: var(--secondary-color);
+  font-style: italic;
+}
+
+.select {
+  cursor: pointer;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .filtros {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .filtrosContainer {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .grupo label {
+    font-size: 0.85rem;
+  }
+  
+  .input,
+  .select {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .filtros {
+    padding: 0.75rem;
+  }
+  
+  .filtrosContainer {
+    gap: 0.75rem;
+  }
+  
+  .grupo label {
+    font-size: 0.8rem;
+  }
+  
+  .input,
+  .select {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+}
