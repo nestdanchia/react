@@ -1,0 +1,346 @@
+useState: El "motor" de la pantalla. Si cambia, el usuario ve el cambio.
+useRef: La "caja fuerte" silenciosa. Guardás datos en una dirección de memoria fija (puntero) para usarlos después, sin molestar a la interfaz.
+useEffect: El "director de escena". 
+Decide cuándo deben ocurrir las cosas 
+(al entrar, al cambiar algo o al irse).
+useRef(null) 👉 Fabrica el objeto { current: null }.
+const timerRef 👉 Guarda ese objeto para que no se pierda.
+timerRef.current 👉 Es el único lugar donde podés escribir o leer tus datos
+import { useState, useEffect, useRef } from "react";
+
+export default function Contador() {
+  const [segundos, setSegundos] = useState(0);
+  const timerRef = useRef(null); // Puntero estable al ID del proceso
+
+  useEffect(() => {
+    // 1. LÓGICA: Solo inicia el proceso si el estado es menor a 10
+    if (segundos < 10) {
+      timerRef.current = setInterval(() => {
+        setSegundos(s => s + 1); // Actualiza el estado
+      }, 1000);
+    }
+
+    // 2. LIMPIEZA: Se ejecuta antes de cada nuevo render o al desmontar
+    return () => {
+      clearInterval(timerRef.current);
+      console.log("Limpieza de memoria ejecutada");
+    };
+  }, [segundos]); // 3. DEPENDENCIA: Re-ejecuta el efecto cuando 'segundos' cambia
+
+  return (
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <h1>{segundos < 10 ? `Contando: ${segundos}` : "¡Tiempo cumplido!"}</h1>
+      <h2>{segundos} segundos</h2>
+      
+      {/* Botón para resetear el puntero y el estado */}
+      {segundos === 10 && (
+        <button onClick={() => setSegundos(0)}>Reiniciar</button>
+      )}
+    </div>
+  );
+}
+Análisis técnico del flujo en JS
+El objeto timerRef
+Al ejecutar useRef(null), React crea el objeto { current: null }. 
+Este objeto no cambia de dirección de memoria en toda la vida del
+ componente.
+Cuando hacemos timerRef.current = setInterval(...), estamos guardando 
+el ID numérico del proceso dentro de esa dirección de memoria.
+La ejecución del useEffect
+Evaluación: React entra al efecto porque detectó que 
+segundos cambió (o es el primer render).
+Condición: Verifica if (segundos < 10).
+Suscripción: Si es true, le pide al navegador (Web API) 
+que cree un intervalo. El navegador devuelve un ID y lo
+ guardamos en nuestro puntero.
+Finalización: Cuando segundos llega a 10, la condición del if es false.
+ El efecto se ejecuta pero no crea un nuevo intervalo. 
+ El ciclo se rompe.
+El rol del return (Cleanup)
+Es la instrucción de recolección de basura. Sin esta línea, cada segundo estarías creando un proceso nuevo sin matar el anterior, lo que saturaría la cola de tareas del navegador (Task Queue) y el procesador.
+
+useState maneja el número.
+useEffect maneja el tiempo.
+&& maneja qué ve el usuario.
+¿Te gustaría que probemos a crear una lista de productos donde el botón de "Comprar" solo aparezca si prod.stock > 0 && <button>Comprar</button>? Sería unir tu primera pregunta con esta última.
+
+
+
+
+Haz una pregunta
+
+const productos = [
+  { id: 1, nombre: "Laptop HP", stock: 5 },
+  { id: 2, nombre: "Mouse Gamer", stock: 0 },
+  { id: 3, nombre: "Teclado Mecánico", stock: 3 },
+];
+
+export default function ListaTienda() {
+  return (
+    <div>
+      <h2>Nuestra Tienda</h2>
+      {productos.map((prod) => (
+        <div key={prod.id} style={{ border: "1px solid #ccc", margin: "10px", padding: "10px" }}>
+          <strong>{prod.nombre}</strong>
+
+          {/* 1. Lógica AND: Si hay stock, muestra el botón */}
+          {prod.stock > 0 && (
+            <button style={{ marginLeft: "10px", color: "green" }}>
+              Comprar ({prod.stock} disponibles)
+            </button>
+          )}
+
+          {/* 2. Lógica AND: Si NO hay stock, muestra el aviso */}
+          {prod.stock === 0 && (
+            <span style={{ marginLeft: "10px", color: "red" }}>
+              🚫 Agotado
+            </span>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+import { useState, useEffect, useRef } from "react";
+
+export default function TiendaPro() {
+  // 1. ESTADO: El stock actual y el producto que se está comprando
+  const [stock, setStock] = useState(10);
+  const [comprando, setComprando] = useState(false);
+  
+  // 2. REFERENCIA: Puntero al diálogo nativo
+  const dialogRef = useRef(null);
+
+  // 3. EFECTO: Si 'comprando' pasa a true, resta 1 al stock y cierra el modal
+  useEffect(() => {
+    if (comprando) {
+      // Simulamos un pequeño delay de procesamiento
+      const timer = setTimeout(() => {
+        setStock(prev => prev - 1); // Resta 1 unidad
+        setComprando(false);        // Finaliza el proceso
+        dialogRef.current.close();  // Cierra el modal vía Referencia
+      }, 1000);
+
+      return () => clearTimeout(timer); // Limpieza de memoria
+    }
+  }, [comprando]);
+
+  return (
+    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
+      <h1>Laptop HP Gamer</h1>
+      <p>Stock disponible: <strong>{stock}</strong></p>
+
+      {/* RENDERIZADO CONDICIONAL: Solo muestra el botón si hay stock */}
+      {stock > 0 ? (
+        <button onClick={() => dialogRef.current.showModal()}>
+          Comprar ahora
+        </button>
+      ) : (
+        <p style={{ color: 'red' }}>⚠️ Producto agotado</p>
+      )}
+
+      {/* MODAL NATIVO */}
+      <dialog ref={dialogRef} style={{ borderRadius: '10px', border: '1px solid #ccc', padding: '20px' }}>
+        <h3>¿Confirmar compra?</h3>
+        <p>Se descontará 1 unidad del inventario.</p>
+        
+        {/* Si está procesando, mostramos un mensaje, sino los botones */}
+        {comprando ? (
+          <p>Procesando pago...</p>
+        ) : (
+          <div>
+            <button onClick={() => setComprando(true)}>Sí, confirmar</button>
+            <button onClick={() => dialogRef.current.close()}>Cancelar</button>
+          </div>
+        )}
+      </dialog>
+    </div>
+  );
+}
+Análisis Técnico de la Arquitectura
+1. Gestión de Memoria (useRef)
+Usamos dialogRef para guardar el puntero al elemento <dialog>.
+Esto nos permite ejecutar .showModal() y .close() sin disparar renderizados innecesarios de React.
+2. Sincronización de Procesos (useEffect)
+El efecto tiene como dependencia [comprando].
+Cuando el usuario hace clic en "Confirmar", el estado cambia y el efecto se dispara.
+Dentro del efecto, usamos un proceso asíncrono (setTimeout) para emular una petición al servidor.
+Al terminar, mutamos el estado de stock y volvemos comprando a false.
+🚀 ¿Qué aprendimos con este sistema?
+Interacción directa: Cómo el useEffect puede controlar un elemento del DOM guardado en un useRef.
+Flujo de datos: Cómo un cambio de estado (comprando) dispara una lógica de negocio que termina afectando a otro estado (stock).
+
+---
+## 🏃‍♂️ LA "CARRERA DE RELEVOS" DEL USEEFFECT
+
+Para entender cuándo ocurre la **primera limpieza**, imagina una carrera:
+
+1. **Salida (0 seg):** El Efecto 1 arranca y guarda el `ID: 101` en la caja fuerte (`timerRef.current`).
+2. **Relevo (1 seg):** El estado cambia. **ANTES** de que el Efecto 2 empiece a correr, React activa la limpieza del Efecto 1.
+3. **La Limpieza:** Mira la caja fuerte, ve el `ID: 101` y lo borra (`clearInterval`). ¡La pista queda limpia!
+4. **Nueva Vuelta:** El Efecto 2 arranca, crea el `ID: 102` y lo guarda.
+
+### Conceptos Clave:
+- **La Limpieza no es el final, es el puente:** No ocurre "al final" de la vida del componente, sino justo antes de que el siguiente efecto tome el control.
+- **useRef es el testigo:** Es el objeto que se pasan los efectos entre sí para saber qué es lo que tienen que limpiar del pasado.
+
+**En resumen:** Sí, en la "primera limpieza" (que ocurre cuando pasas de 0 a 1 segundo), se borra el ID que se creó al inicio. Sin esa limpieza, tendrías un "fantasma" del primer segundo corriendo en paralelo con el segundo actual.
+---
+
+3. Actualización de Estado Funcional
+Usamos setStock(prev => prev - 1).
+Técnicamente: Esto es más seguro que hacer setStock(stock - 1), porque garantiza que estamos restando sobre el valor real más reciente en la memoria, evitando errores si el usuario hiciera muchos clics rápidos.
+
+---
+## �️ CONTRIBUCIÓN TÉCNICA: GESTIÓN DE STOCK PRO
+
+### 1. La Integridad del Dato (Atomicidad)
+Cuando usas `setStock(prev => prev - 1)`, estás aplicando **programación funcional**. 
+- **Por qué importa:** En aplicaciones de alto tráfico (como un CyberMonday), si dos procesos intentan restar stock al mismo tiempo, usar el valor previo (`prev`) asegura que no se pierda ninguna resta. Es como un cajero contando billetes: siempre se basa en lo que tiene en la mano en ese instante exacto.
+
+### 2. El "Cortocircuito" de UI
+Un concepto clave en stock es deshabilitar la acción **antes** de que el error ocurra.
+- **Estrategia:** El botón de compra debería tener la propiedad `disabled={stock === 0}`.
+- **Efecto:** Esto mejora la UX (Experiencia de Usuario) porque no permites que el usuario se ilusione con una compra que no puede completar.
+
+### 3. Sincronización vs Estado Local
+- **Estado Local:** El `stock` que manejas con `useState` es perfecto para la respuesta inmediata en pantalla.
+- **Sincronización:** El `useEffect` es tu puente. Si el stock llega a 0, podrías disparar un efecto que avise al sistema de "Reposición" o que cambie automáticamente la etiqueta a "Agotado".
+
+¿Te gustaría que implementemos una lógica de **"Reserva Temporal"**? Donde el stock baje apenas abren el modal, pero si cancelan la compra (cierran el modal), el stock se devuelva automáticamente al estado original. ¡Eso llevaría tu contador al siguiente nivel!
+---
+
+Resumen general de lo que hicimos
+Pasamos el texto “Catalogo de Laptops” desde App.jsx al componente contenedor con la prop mensaje.
+ItemListContainer quedó como “orquestador”: muestra el <h1> y renderiza <ItemList productos={productos} />.
+ItemList renderiza la lista con map, crea una celda (div) por producto y dentro monta <Item {...prod} />.
+Item muestra los datos visibles de cada laptop: imagen, nombre, precio, stock y botón.
+Aclaramos el uso de Fragment <>...</>: agrupa elementos sin crear un nodo extra en el DOM.
+Agregamos comentario JSX correcto en el wrapper de ItemList.
+Cómo aplicamos estilos (separación por responsabilidad)
+ItemList.module.css
+Estilos del listado/grilla (.frame, .item).
+Item.module.css
+Estilos de la tarjeta individual (.card, .image, .content, .title, .price, .stock, .button).
+Esto te deja una estructura limpia:
+
+Lista controla layout de columnas.
+Item controla look interno de cada card.
+CSS Grid que usamos
+En .frame de ItemList.module.css:
+
+display: grid;
+Activa Grid.
+grid-template-columns: repeat(4, minmax(180px, 1fr));
+4 columnas; cada una mínimo 180px y luego se estira proporcionalmente.
+gap: 16px;
+Separación entre tarjetas.
+align-items: stretch;
+Ítems de la fila se estiran para alturas más parejas.
+max-width: 100%, margin, padding
+Control de ancho y espaciado del contenedor.
+Y en cada celda:
+
+.item { min-width: 0; }
+Evita desbordes en grid/flex cuando el contenido interno no quiere encoger.
+“Flex y Grid”: lo que usamos en este proyecto
+Grid: sí, lo usamos para el catálogo (2 dimensiones: filas + columnas).
+Flex: en este módulo no agregamos reglas display: flex; todo el layout principal lo resolvimos con Grid.
+Propiedades CSS puntuales que repasamos
+overflow: hidden; en .card
+Recorta contenido que se salga (clave con border-radius + imagen).
+box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+Sombra suave para dar profundidad.
+object-fit: cover; en imagen
+Llena el cuadro sin deformar (recorta sobrante).
+display: block; en imagen
+Evita espacio “fantasma” de imagen inline.
+font-weight: 700;
+Negrita fuerte para destacar (ej. precio).
+font-size: 0.9rem;
+Texto secundario un poco más chico (ej. stock).
+Si querés, en el próximo paso te dejo una chuleta corta (10 líneas) con “cuándo usar Grid vs Flex” para que la tengas pegada en el proyecto.
+
+## ESTRATEGIA DE ESTILOS - ANÁLISIS COMPLETADO
+
+### Estrategia de Estilos en index.css
+
+**Variables Globales (CSS Custom Properties):**
+- Se define `:root` con variables globales usando prefijo `--`
+- Variables principales: `--bg`, `--primary`, `--text`, `--accent`, `--white`
+- Paleta de colores basada en tonos verdes suaves para generar confianza y tranquilidad
+
+**Comandos y Estrategias Utilizadas:**
+- `var()` function para consumir variables CSS
+- Selectores de tipo (`body`, `h1`, `h2`, `h3`) para estilos base
+- Reset básico con `margin: 0` en body
+
+### Estrategia en Header.module.css
+
+**Selectores y Comandos:**
+- `.header` como selector de clase principal
+- Selectores anidados (`.header h1`) para específicidad
+- Flexbox commands: `display: flex`, `justify-content: space-between`, `align-items: center`
+- Consumo de variables globales: `var(--primary)`, `var(--white)`
+
+**Separación de Responsabilidades:**
+- Definición de variables → global (index.css)
+- Uso de variables → componentes (Header.module.css)
+
+### Estrategia en Item.module.css (vista adicional)
+
+**Selectores y Comandos:**
+- `.card` como contenedor principal con bordes redondeados y sombra
+- `.image` con `object-fit: cover` y `display: block` para evitar espacio fantasma
+- `.content`, `.title`, `.price` con estructura jerárquica
+- Consumo de variables globales: `var(--white)`, `var(--text)`
+
+**Técnicas CSS Clave:**
+- `border-radius: 10px` para esquinas redondeadas modernas
+- `overflow: hidden` para contenido que se sale de la tarjeta
+- `box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08)` para profundidad sutil
+- `object-fit: cover` para imágenes sin deformación
+
+---
+## 💡 RESUMEN EDUCATIVO: FLEXBOX vs GRID
+
+En este proyecto hemos combinado ambas herramientas para lograr un diseño profesional. Aquí tienes la explicación de qué significan y cuándo usarlas:
+
+### 1. CSS GRID (El orquestador de la Galaxia)
+Lo usamos en **ItemList.module.css** para crear la cuadrícula de productos.
+- **Concepto:** Trabaja en **2 dimensiones** (filas y columnas al mismo tiempo). 
+Es ideal para el diseño general de la página o galerías.
+- **Comandos clave usados:**
+    - `display: grid`: Define que el contenedor se comporte como una rejilla.
+    - `grid-template-columns: repeat(4, 1fr)`: Divide el espacio en 4 columnas iguales.
+     El `fr` es una "fracción" del espacio disponible.
+    - `gap: 16px`: Establece el espacio entre las celdas sin usar márgenes manuales.
+
+### 2. FLEXBOX (El experto en alineación lineal)
+Lo usamos en **Header.module.css** y **Navbar.css** para alinear el logo y los enlaces.
+- **Concepto:** Trabaja en **1 dimensión** (una fila o una columna). Es perfecto para alinear elementos dentro de un contenedor, como menús o botones.
+- **Comandos clave usados:**
+    - `display: flex`: Convierte el contenedor en un eje flexible.
+    - `justify-content: space-between`: Empuja los elementos a los extremos 
+    (ej: Título a la izquierda, Nav a la derecha).
+    - `align-items: center`: Centra los elementos verticalmente para 
+    que queden perfectos respecto al fondo.
+    - `gap: 15px`: Espaciado consistente entre los botones del menú.
+
+### ¿Cuándo usar cuál?
+- **Usa Grid** cuando quieras definir una estructura rígida de filas y columnas 
+(como tu catálogo de laptops).
+- **Usa Flex** cuando quieras distribuir elementos en una línea y 
+necesites control total sobre su alineación y espaciado (como tu barra de navegación).
+
+---
+## 🛠️ LECCIÓN: FILTRADO DE DATOS EN JSX
+
+### Encadenamiento de Métodos: .filter().map()
+Es la mejor práctica para mostrar listas condicionales. 
+- **Paso 1 (.filter):** Crea una nueva lista con solo los elementos que cumplen la condición (ej: `stock > 0`).
+- **Paso 2 (.map):** Recorre esa lista filtrada para crear los elementos visuales.
+
+**¿Por qué en ItemList y no en Item?**
+1. **Limpieza del DOM:** Si filtras en `ItemList`, los productos sin stock ni siquiera se crean. Si usas un `if` dentro de `Item` que devuelva `null`, React crea una "celda vacía" en tu Grid, dejando huecos feos en el catálogo.
+2. **Responsabilidad:** `ItemList` decide **qué** se muestra. `Item` decide **cómo** se muestra un producto individual.

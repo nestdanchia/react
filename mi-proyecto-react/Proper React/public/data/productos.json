@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "nombre": "Laptop Pro",
+    "stock": 10,
+    "precio": 1200,
+    "categoria": "computacion"
+  },
+  {
+    "id": 2,
+    "nombre": "Mouse Inalámbrico",
+    "stock": 5,
+    "precio": 45,
+    "categoria": "accesorios"
+  },
+  {
+    "id": 3,
+    "nombre": "Monitor 4K",
+    "stock": 2,
+    "precio": 350,
+    "categoria": "computacion"
+  },
+  {
+    "id": 4,
+    "nombre": "Teclado Mecánico",
+    "stock": 8,
+    "precio": 120,
+    "categoria": "accesorios"
+  },
+  {
+    "id": 5,
+    "nombre": "Webcam HD",
+    "stock": 15,
+    "precio": 80,
+    "categoria": "accesorios"
+  }
+]

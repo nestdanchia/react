@@ -1,0 +1,29 @@
+:root {
+  --bg: #d9fae6;
+  /* Verde suave */
+  --primary: #2E7D32;
+  /* Verde bosque profundo */
+  --text: #333333;
+  --accent: #FF6F00;
+  /* Naranja vibrante para resaltar */
+  --white: #FFFFFF;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 0;
+  font-family: sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--primary);
+}
+/*¿Por qué index.css? Porque: se carga una sola vez (global) afecta a toda la app define la “base visual”*/
+
+/*index.css=base visual (colores globales) 
+App.css=estructura global del proyecto .module.css=estilos específicos para cada componente
+layout=contenedor general (header, main, footer)*/
+/*Se definió una paleta basada en tonos verdes suaves para generar una interfaz agradable y no invasiva visualmente. El verde transmite tranquilidad y confianza,adecuado para un e-commerce. Se utilizan colores de acento más intensos para destacar acciones importantes como botones o promociones,mejorando la experiencia del usuario.*/

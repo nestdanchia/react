@@ -1,0 +1,23 @@
+.navbarContainer {
+  display: flex;
+  gap: 15px;
+  /* Espacio entre botones */
+}
+
+.link {
+  background-color: var(--white);
+  /* Fondo blanco para resaltar */
+  color: var(--accent);
+  /* Texto naranja de tu paleta */
+  padding: 8px 16px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.link:hover {
+  background-color: var(--accent);
+  /* Se invierte al pasar el mouse */
+  color: var(--white);
+}

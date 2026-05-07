@@ -1,0 +1,22 @@
+.header {
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 25px 40px;
+  display: flex;
+  justify-content: space-between;
+  /* Título a la izquierda, Nav a la derecha */
+  align-items: center;
+  /* Todo centrado verticalmente */
+}
+
+.header h1 {
+  color: var(--white);
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.logo {
+  height: 40px;
+  /* Tamaño del SVG de React */
+}
+/*Definir variables → global (index.css) Usar variables → componentes (Header.module.css)*/
